@@ -4,7 +4,8 @@
  */
 package vista;
 
-import controlador.Empresa;
+import Modelo.Empresa;
+import controlador.Categoria;
 import controlador.Usuario;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
@@ -13,23 +14,34 @@ import javax.swing.JOptionPane;
  *
  * @author dam
  */
-public class PnAcceso extends javax.swing.JFrame {
+public class VntAcceso extends javax.swing.JFrame {
+
     Empresa empresa;
 
     /**
      * Creates new form PnAcceso
      */
-    public PnAcceso() {
+    public VntAcceso() {
         initComponents();
         empresa = new Empresa();
         anadirUsu();
+        anadirCategorias();
+    }
+
+    public VntAcceso(Empresa empresa) {
+        initComponents();
+        this.empresa = empresa;
     }
 
     private void anadirUsu() {
         empresa.anadirUsuarios(new Usuario("mj", "202cb962ac59075b964b07152d234b70"));
         empresa.anadirUsuarios(new Usuario("a", "202cb962ac59075b964b07152d234b70"));
     }
-
+    
+    private void anadirCategorias() {
+        empresa.anadirCategorias(new Categoria(1, "Administracion"));
+        empresa.anadirCategorias(new Categoria(2, "Dam"));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,12 +166,13 @@ public class PnAcceso extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Usuario inexistente", "Error", JOptionPane.ERROR_MESSAGE);
             limpiar();
+            txtNombre.requestFocus();
         }
     }//GEN-LAST:event_btAceptarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
-        txtNombre.setText("");
-        txtContrasena.setText("");
+        limpiar();
+        txtNombre.requestFocus();
     }//GEN-LAST:event_btCancelarActionPerformed
 
     private void txtContrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaKeyPressed
@@ -170,10 +183,11 @@ public class PnAcceso extends javax.swing.JFrame {
             txtContrasena.setText("");
         }
     }//GEN-LAST:event_txtContrasenaKeyPressed
- private void limpiar() {
+    private void limpiar() {
         txtNombre.setText("");
         txtContrasena.setText("");
     }
+
     /**
      * @param args the command line arguments
      */
@@ -191,20 +205,21 @@ public class PnAcceso extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PnAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VntAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PnAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VntAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PnAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VntAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PnAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VntAcceso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PnAcceso().setVisible(true);
+                new VntAcceso().setVisible(true);
             }
         });
     }
@@ -218,4 +233,6 @@ public class PnAcceso extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    
 }

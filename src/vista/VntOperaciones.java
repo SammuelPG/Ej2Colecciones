@@ -5,7 +5,7 @@
 
 package vista;
 
-import controlador.Empresa;
+import Modelo.Empresa;
 
 /**
  *
@@ -13,6 +13,8 @@ import controlador.Empresa;
  */
 public class VntOperaciones extends javax.swing.JFrame {
     Empresa empresa;
+    PnAltaNoticias altanoticias;
+    PnConsultaNoticias consultanoticias;
     /** Creates new form VntOperaciones */
     public VntOperaciones(Empresa empresa) {
         initComponents();
@@ -28,27 +30,109 @@ public class VntOperaciones extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jMenuBar1 = new javax.swing.JMenuBar();
+        MenuConsultas = new javax.swing.JMenu();
+        AltaNoticias = new javax.swing.JMenuItem();
+        ConsultaNoticias = new javax.swing.JMenuItem();
+        MenuSalir = new javax.swing.JMenu();
+        CerrarSesion = new javax.swing.JMenuItem();
+        Salir = new javax.swing.JMenuItem();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.FlowLayout());
+
+        MenuConsultas.setText("Noticias");
+
+        AltaNoticias.setText("Alta de Noticias");
+        AltaNoticias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AltaNoticiasActionPerformed(evt);
+            }
+        });
+        MenuConsultas.add(AltaNoticias);
+
+        ConsultaNoticias.setText("Consulta de Noticias");
+        ConsultaNoticias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultaNoticiasActionPerformed(evt);
+            }
+        });
+        MenuConsultas.add(ConsultaNoticias);
+
+        jMenuBar1.add(MenuConsultas);
+
+        MenuSalir.setText("Salir");
+
+        CerrarSesion.setText("Cerrar Sesión");
+        CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarSesionActionPerformed(evt);
+            }
+        });
+        MenuSalir.add(CerrarSesion);
+
+        Salir.setText("Salir");
+        Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirActionPerformed(evt);
+            }
+        });
+        MenuSalir.add(Salir);
+
+        jMenuBar1.add(MenuSalir);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void AltaNoticiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AltaNoticiasActionPerformed
+        quitarPaneles();
+        altanoticias = new PnAltaNoticias(empresa);
+        this.getContentPane().add(altanoticias);
+        pack();
+    }//GEN-LAST:event_AltaNoticiasActionPerformed
+
+    private void ConsultaNoticiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaNoticiasActionPerformed
+        quitarPaneles();
+        consultanoticias = new PnConsultaNoticias(empresa);
+        this.getContentPane().add(consultanoticias);
+        pack();
+    }//GEN-LAST:event_ConsultaNoticiasActionPerformed
+
+    private void CerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionActionPerformed
+        new VntAcceso(empresa).setVisible(true);
+        dispose();
+        pack();
+    }//GEN-LAST:event_CerrarSesionActionPerformed
+
+    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
+        dispose();
+        System.exit(0);
+    }//GEN-LAST:event_SalirActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
+private void quitarPaneles() {
+        try {
+            this.getContentPane().remove(altanoticias);
+        } catch (Exception ex) {
+        }
+        try {
+            this.getContentPane().remove(consultanoticias);
+        } catch (Exception ex) {
+        
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AltaNoticias;
+    private javax.swing.JMenuItem CerrarSesion;
+    private javax.swing.JMenuItem ConsultaNoticias;
+    private javax.swing.JMenu MenuConsultas;
+    private javax.swing.JMenu MenuSalir;
+    private javax.swing.JMenuItem Salir;
+    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 
 }
