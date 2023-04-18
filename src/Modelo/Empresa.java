@@ -5,6 +5,7 @@
 package Modelo;
 
 import controlador.Categoria;
+import controlador.Noticia;
 import controlador.Usuario;
 import encriptar.Encriptar;
 import java.util.ArrayList;
@@ -17,10 +18,12 @@ public class Empresa {
 
     ArrayList<Usuario> usuarios;
     ArrayList<Categoria> categorias;
+    ArrayList<Noticia> noticias;
 
     public Empresa() {
         usuarios = new ArrayList<>();
         categorias=new ArrayList<>();
+        noticias=new ArrayList<>();
     }
 
     public void anadirUsuarios(Usuario u) {
@@ -30,6 +33,20 @@ public class Empresa {
         categorias.add(c);
     }
 
+     public boolean buscarCodigo(int codigo) {
+        int pos;
+        boolean resultado = false;
+        pos = noticias.indexOf(new Noticia(codigo));
+        if (pos != -1) {
+            resultado=true;
+        }
+        return resultado;
+    }
+
+    public ArrayList<Categoria> getCategorias() {
+        return categorias;
+    }
+     
     public boolean buscarUsuario(String nombre, String contrasena) {
         int pos;
         boolean resultado = false;

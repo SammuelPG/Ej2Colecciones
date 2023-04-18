@@ -5,13 +5,18 @@
 package vista;
 
 import Modelo.Empresa;
+import controlador.Categoria;
+import controlador.Usuario;
+import controlfechas.Fecha;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author dam
  */
 public class PnAltaNoticias extends javax.swing.JPanel {
-
+    DefaultComboBoxModel modelo;
     Empresa empresa;
 
     /**
@@ -20,6 +25,14 @@ public class PnAltaNoticias extends javax.swing.JPanel {
     public PnAltaNoticias(Empresa empresa) {
         initComponents();
         this.empresa = empresa;
+        modelo = new DefaultComboBoxModel();
+        listaCategoria.setModel(modelo);
+        cargarCursos();
+    }
+
+    private void cargarCursos() {
+        modelo.addElement("Seleccione un curso");
+        modelo.addAll(empresa.getCategorias());
     }
 
     /**
@@ -34,13 +47,15 @@ public class PnAltaNoticias extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtCategoria = new javax.swing.JTextField();
-        txtUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtFecha = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btAceptar = new javax.swing.JButton();
         btCancelar = new javax.swing.JButton();
+        txtUsuario = new javax.swing.JLabel();
+        listaCategoria = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        codNotic = new javax.swing.JTextField();
 
         jLabel1.setText("Titulo");
 
@@ -51,8 +66,19 @@ public class PnAltaNoticias extends javax.swing.JPanel {
         jLabel4.setText("Fecha");
 
         btAceptar.setText("Aceptar");
+        btAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAceptarActionPerformed(evt);
+            }
+        });
 
         btCancelar.setText("Cancelar");
+
+        txtUsuario.setText("**********************");
+
+        listaCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel5.setText("CodigoNoticia");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -66,42 +92,48 @@ public class PnAltaNoticias extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                            .addComponent(txtCategoria)
-                            .addComponent(txtUsuario)
-                            .addComponent(txtFecha)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                                .addComponent(txtFecha)
+                                .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(listaCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(codNotic, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(107, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(btCancelar)))
-                .addContainerGap(125, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btAceptar)
-                .addGap(63, 63, 63))
+                        .addComponent(btCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btAceptar)
+                        .addGap(79, 79, 79))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(codNotic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                    .addComponent(listaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btAceptar)
                     .addComponent(btCancelar))
@@ -109,17 +141,53 @@ public class PnAltaNoticias extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAceptarActionPerformed
+        String txtCod;
+        int codigoNot;
+        String titulo;
+        Categoria Categoria;
+        Usuario usuario;
+        Fecha fecha;
+        txtCod=codNotic.getText();
+        try{
+        codigoNot=Integer.parseInt(txtCod);
+        if(empresa.buscarCodigo(codigoNot)){
+            JOptionPane.showMessageDialog(this, "El codigo ya existe","Error",JOptionPane.ERROR_MESSAGE);
+            codNotic.setText("");
+            codNotic.requestFocus();
+        }else{
+            
+        }
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "El codigo debe de ser un numero","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        fecha= pedirFecha(txtFecha.getText());
+            
+        
+    }//GEN-LAST:event_btAceptarActionPerformed
+ 
+    public Fecha pedirFecha(String mensaje) {
+        Fecha miFecha = new Fecha();
+        if(!(miFecha.comprobarFecha(mensaje))) {
+           JOptionPane.showMessageDialog(this, "Fecha incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+           txtFecha.setText("");
+           txtFecha.requestFocus();
+        }
+        return miFecha;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAceptar;
     private javax.swing.JButton btCancelar;
+    private javax.swing.JTextField codNotic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txtCategoria;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JComboBox<String> listaCategoria;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtTitulo;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JLabel txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

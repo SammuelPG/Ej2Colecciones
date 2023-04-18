@@ -24,5 +24,35 @@ public class Noticia {
         this.usuario = usuario;
         this.fecha = fecha;
     }
+
+    public Noticia(int codigoNot) {
+        this.codigoNot=codigoNot;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + this.codigoNot;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Noticia other = (Noticia) obj;
+        if (this.codigoNot != other.codigoNot) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }
