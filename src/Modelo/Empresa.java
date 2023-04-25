@@ -9,6 +9,7 @@ import controlador.Noticia;
 import controlador.Usuario;
 import encriptar.Encriptar;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,23 +23,28 @@ public class Empresa {
 
     public Empresa() {
         usuarios = new ArrayList<>();
-        categorias=new ArrayList<>();
-        noticias=new ArrayList<>();
+        categorias = new ArrayList<>();
+        noticias = new ArrayList<>();
     }
 
     public void anadirUsuarios(Usuario u) {
         usuarios.add(u);
     }
-     public void anadirCategorias(Categoria c) {
+
+    public void anadirCategorias(Categoria c) {
         categorias.add(c);
     }
 
-     public boolean buscarCodigo(int codigo) {
+    public void anadirNoticia(Noticia n) {
+        noticias.add(n);
+    }
+
+    public boolean buscarCodigo(int codigo) {
         int pos;
         boolean resultado = false;
         pos = noticias.indexOf(new Noticia(codigo));
         if (pos != -1) {
-            resultado=true;
+            resultado = true;
         }
         return resultado;
     }
@@ -46,7 +52,15 @@ public class Empresa {
     public ArrayList<Categoria> getCategorias() {
         return categorias;
     }
-     
+
+    public ArrayList<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public ArrayList<Noticia> getNoticias() {
+        return noticias;
+    }
+
     public boolean buscarUsuario(String nombre, String contrasena) {
         int pos;
         boolean resultado = false;
@@ -55,5 +69,16 @@ public class Empresa {
             resultado = usuarios.get(pos).getContrasena().equals(Encriptar.getMD5(contrasena));
         }
         return resultado;
+    }
+
+    public Noticia unaNoticia(int codigo) {
+        int pos = noticias.indexOf(codigo);
+        Noticia noticia;
+        if (pos != -1) {
+            noticia = noticias.get(pos);
+        } else {
+            noticia = new Noticia(codigo);
+        }
+        return noticia;
     }
 }

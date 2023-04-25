@@ -6,6 +6,7 @@
 package vista;
 
 import Modelo.Empresa;
+import controlador.Usuario;
 
 /**
  *
@@ -13,12 +14,14 @@ import Modelo.Empresa;
  */
 public class VntOperaciones extends javax.swing.JFrame {
     Empresa empresa;
+    Usuario usuario;
     PnAltaNoticias altanoticias;
     PnConsultaNoticias consultanoticias;
     /** Creates new form VntOperaciones */
-    public VntOperaciones(Empresa empresa) {
+    public VntOperaciones(Empresa empresa,Usuario usuario) {
         initComponents();
         this.empresa=empresa;
+        this.usuario=usuario;
     }
 
     /** This method is called from within the constructor to
@@ -88,14 +91,14 @@ public class VntOperaciones extends javax.swing.JFrame {
 
     private void AltaNoticiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AltaNoticiasActionPerformed
         quitarPaneles();
-        altanoticias = new PnAltaNoticias(empresa);
+        altanoticias = new PnAltaNoticias(empresa,usuario);
         this.getContentPane().add(altanoticias);
         pack();
     }//GEN-LAST:event_AltaNoticiasActionPerformed
 
     private void ConsultaNoticiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaNoticiasActionPerformed
         quitarPaneles();
-        consultanoticias = new PnConsultaNoticias(empresa);
+        consultanoticias = new PnConsultaNoticias(empresa,usuario);
         this.getContentPane().add(consultanoticias);
         pack();
     }//GEN-LAST:event_ConsultaNoticiasActionPerformed

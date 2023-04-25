@@ -53,6 +53,25 @@ public class Noticia {
         }
         return true;
     }
-    
-    
+
+    public int getCodigoNot() {
+        return codigoNot;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public Categoria getCategoria() {
+        return Categoria;
+    }
+
+    public Fecha getFecha() {
+        return fecha;
+    }
+
 }

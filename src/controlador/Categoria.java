@@ -16,5 +16,10 @@ public class Categoria {
         this.nCat = nCat;
         this.denominacion = denominacion;
     }
+
+    @Override
+    public String toString() {
+        return denominacion; //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

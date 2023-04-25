@@ -6,8 +6,10 @@ package vista;
 
 import Modelo.Empresa;
 import controlador.Categoria;
+import controlador.Noticia;
 import controlador.Usuario;
 import controlfechas.Fecha;
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -16,21 +18,25 @@ import javax.swing.JOptionPane;
  * @author dam
  */
 public class PnAltaNoticias extends javax.swing.JPanel {
+
     DefaultComboBoxModel modelo;
     Empresa empresa;
+    Usuario usuario;
 
     /**
      * Creates new form PnAltaNoticias
      */
-    public PnAltaNoticias(Empresa empresa) {
+    public PnAltaNoticias(Empresa empresa, Usuario usuario) {
         initComponents();
         this.empresa = empresa;
         modelo = new DefaultComboBoxModel();
         listaCategoria.setModel(modelo);
-        cargarCursos();
+        this.usuario = usuario;
+        txtUsuario.setText(usuario.getNombre());
+        cargarCategoria();
     }
 
-    private void cargarCursos() {
+    private void cargarCategoria() {
         modelo.addElement("Seleccione un curso");
         modelo.addAll(empresa.getCategorias());
     }
@@ -59,9 +65,21 @@ public class PnAltaNoticias extends javax.swing.JPanel {
 
         jLabel1.setText("Titulo");
 
+        txtTitulo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTituloKeyPressed(evt);
+            }
+        });
+
         jLabel2.setText("Categoría");
 
         jLabel3.setText("Usuario");
+
+        txtFecha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFechaKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("Fecha");
 
@@ -73,12 +91,28 @@ public class PnAltaNoticias extends javax.swing.JPanel {
         });
 
         btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         txtUsuario.setText("**********************");
 
         listaCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        listaCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                listaCategoriaKeyPressed(evt);
+            }
+        });
 
         jLabel5.setText("CodigoNoticia");
+
+        codNotic.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                codNoticKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -142,38 +176,101 @@ public class PnAltaNoticias extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAceptarActionPerformed
+        int pos = listaCategoria.getSelectedIndex();
         String txtCod;
-        int codigoNot;
+        int codigoNot = 0;
         String titulo;
-        Categoria Categoria;
-        Usuario usuario;
         Fecha fecha;
-        txtCod=codNotic.getText();
-        try{
-        codigoNot=Integer.parseInt(txtCod);
-        if(empresa.buscarCodigo(codigoNot)){
-            JOptionPane.showMessageDialog(this, "El codigo ya existe","Error",JOptionPane.ERROR_MESSAGE);
-            codNotic.setText("");
-            codNotic.requestFocus();
-        }else{
-            
+        txtCod = codNotic.getText();
+        try {
+            codigoNot = Integer.parseInt(txtCod);
+            if (empresa.buscarCodigo(codigoNot)) {
+                JOptionPane.showMessageDialog(this, "El codigo ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+                codNotic.setText("");
+                codNotic.requestFocus();
+            } else {
+                titulo = txtTitulo.getText();
+                if (titulo.equals("")) {
+                    JOptionPane.showMessageDialog(this, "Debe de tener título", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    //Usuario se pasa desde arriba del login.
+                    if (!(modelo.getElementAt(pos).getClass().equals("java.lang.String"))) {
+                        if (pos == 0) {
+                            JOptionPane.showMessageDialog(this, "Selecciona una Categoria", "Error", JOptionPane.ERROR_MESSAGE);
+                            listaCategoria.requestFocus();
+                        } else {
+                            Categoria c = (Categoria) modelo.getElementAt(pos);
+                            fecha = pedirFecha(txtFecha.getText());
+                            if (fecha.comprobarFecha(txtFecha.getText())) {
+                                empresa.anadirNoticia(new Noticia(codigoNot, titulo, c, usuario, fecha));
+                                JOptionPane.showMessageDialog(this, "Noticia añadida", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+                                limpiar();
+                            } else {
+                                txtFecha.requestFocus();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El codigo debe de ser un numero", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        }catch(NumberFormatException ex){
-            JOptionPane.showMessageDialog(this, "El codigo debe de ser un numero","Error",JOptionPane.ERROR_MESSAGE);
-        }
-        fecha= pedirFecha(txtFecha.getText());
-            
-        
     }//GEN-LAST:event_btAceptarActionPerformed
- 
+
+    private void codNoticKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codNoticKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtTitulo.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            codNotic.setText("");
+        }
+    }//GEN-LAST:event_codNoticKeyPressed
+
+    private void txtTituloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTituloKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            listaCategoria.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtTitulo.setText("");
+        }
+    }//GEN-LAST:event_txtTituloKeyPressed
+
+    private void listaCategoriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_listaCategoriaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtFecha.requestFocus();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            listaCategoria.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_listaCategoriaKeyPressed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void txtFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFechaKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btAceptar.doClick();
+        }
+        if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            txtFecha.setText("");
+        }
+    }//GEN-LAST:event_txtFechaKeyPressed
+
     public Fecha pedirFecha(String mensaje) {
         Fecha miFecha = new Fecha();
-        if(!(miFecha.comprobarFecha(mensaje))) {
-           JOptionPane.showMessageDialog(this, "Fecha incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
-           txtFecha.setText("");
-           txtFecha.requestFocus();
+        if (!(miFecha.comprobarFecha(mensaje))) {
+            JOptionPane.showMessageDialog(this, "Fecha incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            txtFecha.setText("");
         }
         return miFecha;
+    }
+
+    private void limpiar() {
+        codNotic.setText("");
+        txtTitulo.setText("");
+        listaCategoria.setSelectedIndex(0);
+        txtFecha.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

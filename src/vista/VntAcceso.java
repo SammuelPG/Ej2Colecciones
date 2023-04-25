@@ -160,7 +160,7 @@ public class VntAcceso extends javax.swing.JFrame {
         String login = txtNombre.getText();
         String contra = new String(txtContrasena.getPassword());
         if (empresa.buscarUsuario(login, contra)) {
-            new VntOperaciones(empresa).setVisible(true);
+            new VntOperaciones(empresa,new Usuario(login)).setVisible(true);
             dispose();
             pack();
         } else {
