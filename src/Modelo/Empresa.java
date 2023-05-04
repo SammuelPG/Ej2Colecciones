@@ -71,14 +71,22 @@ public class Empresa {
         return resultado;
     }
 
+    public int BuscarunaNoticia(int codigo) {
+        return noticias.indexOf(new Noticia(codigo));
+    }
+
     public Noticia unaNoticia(int codigo) {
-        int pos = noticias.indexOf(codigo);
+        int pos = noticias.indexOf(new Noticia(codigo));
         Noticia noticia;
         if (pos != -1) {
             noticia = noticias.get(pos);
         } else {
-            noticia = new Noticia(codigo);
+            noticia = null;
         }
         return noticia;
+    }
+
+    public void borrarNoticia(int pos) {
+        noticias.remove(pos);
     }
 }
